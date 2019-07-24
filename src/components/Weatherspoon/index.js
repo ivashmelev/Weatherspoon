@@ -8,8 +8,7 @@ class Weatherspoon extends Component {
     this.state = {
       temperatura: '',
       humidity: '',
-      // city: '',
-      cities: localStorage['cities'] ? localStorage['cities'].split(',') : []
+      cities: localStorage['cities'] ? localStorage['cities'].split(',') : localStorage['cities'] = ['Moscow', 'Washington', 'New York', 'Rome']
     };
   }
 
@@ -22,7 +21,6 @@ class Weatherspoon extends Component {
       this.setState({
         city: data.city.name
       });
-      console.log(this.state.cities)
     }
   }
 
@@ -36,10 +34,6 @@ class Weatherspoon extends Component {
     this.setState(prevState => ({
       cities: [...prevState.cities, city]
     }));
-
-    // if (localStorage['cities']) {
-    // }
-
   }
 
   render() {
@@ -53,7 +47,7 @@ class Weatherspoon extends Component {
           <div className="content">
             <div className="background"></div>
             {this.state.cities.map((element, index) =>
-              <City key={index} value={element} />
+              <City key={index} index={index} value={element} />
             )}
           </div>
           <div className="add_city">

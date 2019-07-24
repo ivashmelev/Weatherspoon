@@ -39,11 +39,19 @@ class City extends Component {
     for (let i in arr) {
       if (arr[i] === value) {
         arr.splice(i, 1);
-        localStorage['cities'] = arr.join(',');
+
       }
     }
+  }
 
-    console.log(localStorage['cities']);
+  deleteCity(index) {
+    console.log(index);
+    const arr = localStorage['cities'].split(',');
+    arr.splice(index, 1);
+    localStorage['cities'] = arr;
+    const block = document.getElementsByClassName('city')[index];
+    console.log(block);
+    block.classList.add('deleted');
   }
 
   render() {
@@ -52,6 +60,7 @@ class City extends Component {
         <div className="city">
           <span className="name">{this.state.city} </span>
           <span className="value">{this.state.temperatura} ℃</span>
+          <button onClick={() => { this.deleteCity(this.props.index) }}> - </button>
         </div>
         : null
     )

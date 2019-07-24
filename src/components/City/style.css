@@ -1,0 +1,8 @@
+.city.deleted{
+  text-decoration: line-through;
+}
+
+.city{
+  display: flex;
+  justify-content: space-between;
+}
