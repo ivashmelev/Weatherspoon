@@ -8,7 +8,8 @@ class Weatherspoon extends Component {
     this.state = {
       temperatura: '',
       humidity: '',
-      cities: ''
+      // city: '',
+      cities: localStorage['cities'] ? localStorage['cities'].split(',') : []
     };
   }
 
@@ -17,11 +18,11 @@ class Weatherspoon extends Component {
       `http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=${key}`
     );
     if (response.ok) {
-      // const data = await response.json();
-      // this.setState({
-      //   city: data.city.name
-      // });
-      // console.log(this.state.city)
+      const data = await response.json();
+      this.setState({
+        city: data.city.name
+      });
+      console.log(this.state.cities)
     }
   }
 
@@ -29,7 +30,17 @@ class Weatherspoon extends Component {
     await this.authApi()
   }
 
+  addCity(city = 'Moscow') {
+    localStorage['cities'] = [...this.state.cities, city];
 
+    this.setState(prevState => ({
+      cities: [...prevState.cities, city]
+    }));
+
+    // if (localStorage['cities']) {
+    // }
+
+  }
 
   render() {
     setInterval(async () => {
@@ -38,11 +49,17 @@ class Weatherspoon extends Component {
     return (
       <div className="wrapper">
         <div className="head">
-          <h2 className="title">Город</h2>
+          <h2 className="title">Weatherspoon</h2>
           <div className="content">
-            {this.state.cities}
+            <div className="background"></div>
+            {this.state.cities.map((element, index) =>
+              <City key={index} value={element} />
+            )}
           </div>
-          <button onClick={this.addCity}>add</button>
+          <div className="add_city">
+            <input type="text" id='cityInput' />
+            <button onClick={() => this.addCity(document.getElementById('cityInput').value)}>add</button>
+          </div>
         </div>
       </div>
     )

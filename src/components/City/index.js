@@ -22,18 +22,38 @@ class City extends Component {
         humidity: data.main.humidity
       });
     }
+    else {
+      this.setState({
+        city: ''
+      });
+      this.cleanData(this.state.city)
+    }
   }
 
   async componentDidMount() {
     await this.getWeather(this.state.city);
   }
 
+  cleanData(value) {
+    const arr = localStorage['cities'].split(',')
+    for (let i in arr) {
+      if (arr[i] === value) {
+        arr.splice(i, 1);
+        localStorage['cities'] = arr.join(',');
+      }
+    }
+
+    console.log(localStorage['cities']);
+  }
+
   render() {
     return (
-      <div className="city">
-        <span className="name">{this.state.city}</span>
-        <span className="value">{this.state.temperatura}</span>
-      </div>
+      this.state.city ?
+        <div className="city">
+          <span className="name">{this.state.city} </span>
+          <span className="value">{this.state.temperatura} ℃</span>
+        </div>
+        : null
     )
   }
 }
